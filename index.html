@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rowing Percentage Calculator</title>
+    <style>
+        body {
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            font-size: 15px;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            background: url('https://www.helvanhetnoorden.nl/wp-content/uploads/2021/08/cropped-header_1-scaled-1.jpg') center/cover no-repeat; /* Replace 'your-background-image.jpg' with the path to your image */
+            height: 100vh; /* Ensure full height */
+        }
+
+        h2 {
+            font-size: 42px;
+            margin-top: 50px;
+            margin-bottom: 0px;
+            color: white; /* Text color on the background image */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Drop shadow for the title */
+        }
+
+        form {
+            width: 300px;
+            margin-top: 20px;
+            position: relative;
+            background: rgba(255, 255, 255, 0.9); /* Semi-transparent white background */
+            border-radius: 10px; /* Rounded corners */
+            padding: 20px; /* Padding inside the white box */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle box shadow */
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input, select, button {
+            width: calc(100% - 16px);
+            margin-bottom: 10px;
+            padding: 8px;
+            box-sizing: border-box;
+            vertical-align: middle;
+            border-radius: 5px; /* Rounded edges */
+        }
+
+        label {
+            margin-top: 0px;
+        }
+
+        .space-between {
+            margin-bottom: 20px;
+        }
+
+        .space-between-begin {
+            margin-bottom: 20px;
+        }
+
+        .space-between-end {
+            margin-bottom: 20px;
+        }
+
+        .space-between-beginning {
+            margin-bottom: 20px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease; /* Smooth transition */
+        }
+
+        button:hover {
+            background-color: #45a049; /* Darker green on hover */
+        }
+
+        #resultContainer {
+            margin-top: 20px;
+        }
+
+        #resultBox {
+            width: 100%;
+            margin-top: -75px;
+            padding: 10px;
+            box-sizing: border-box;
+            background: rgba(255, 255, 255, 0.9); /* Semi-transparent white background */
+            border-radius: 5px; /* Rounded corners */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle box shadow */
+            color: black;
+        }
+
+        #imageContainer {
+            margin-top: 20px;
+        }
+
+        img {
+            width: 75px;
+            margin-top: 0px;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Rowing Percentage Calculator</h2>
+
+    <div class="space-between-beginning"></div>
+
+    <form id="rowingForm">
+        <label for="distance">Distance (meters): </label>
+        <select id="distance" required>
+            <option value="500">500</option>
+            <option value="1000">1000</option>
+            <option value="1500">1500</option>
+            <option value="2000">2000</option>
+            <option value="3000">3000</option>
+        </select>
+
+        <div class="space-between-begin"></div>
+
+        <label for="normMinutes">Norm Time (minutes): </label>
+        <input type="number" id="normMinutes" required>
+
+        <label for="normSeconds">Norm Time (seconds): </label>
+        <input type="number" id="normSeconds" required>
+
+        <div class="space-between"></div>
+
+        <label for="rowerMinutes">Rower Time (minutes): </label>
+        <input type="number" id="rowerMinutes" required>
+
+        <label for="rowerSeconds">Rower Time (seconds): </label>
+        <input type="number" id="rowerSeconds" required>
+
+        <label for="rowerTenths">Rower Time (tenths): </label>
+        <input type="number" id="rowerTenths" required>
+
+        <div class="space-between-end"></div>
+
+        <button type="button" onclick="calculatePercentage()">Calculate Percentage</button>
+    </form>
+
+    <div id="imageContainer">
+        <img src="https://wikiwandv2-19431.kxcdn.com/_next/image?url=https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Red_star.svg/640px-Red_star.svg.png&w=640&q=50" alt="Small Image">
+    </div>
+
+    <div id="resultContainer"></div>
+
+    <script>
+        function calculatePercentage() {
+            var distance = parseInt(document.getElementById('distance').value);
+            var normMinutes = parseInt(document.getElementById('normMinutes').value);
+            var normSeconds = parseInt(document.getElementById('normSeconds').value);
+            var rowerMinutes = parseInt(document.getElementById('rowerMinutes').value);
+            var rowerSeconds = parseInt(document.getElementById('rowerSeconds').value);
+            var rowerTenths = parseInt(document.getElementById('rowerTenths').value);
+
+            var totalNormSeconds = (normMinutes * 60) + normSeconds;
+            var totalRowerSeconds = (rowerMinutes * 60) + rowerSeconds + (rowerTenths / 10);
+
+            var percentage;
+
+            if (distance === 2000) {
+                percentage = (totalNormSeconds / totalRowerSeconds) * 100;
+            } else if (distance === 1000) {
+                percentage = ((totalNormSeconds / 2) / totalRowerSeconds) * 100;
+            } else if (distance === 500) {
+                percentage = ((totalNormSeconds / 4) / totalRowerSeconds) * 100;
+            } else if (distance === 3000) {
+                percentage = ((totalNormSeconds * 1.5) / totalRowerSeconds) * 100;
+            } else if (distance === 1500) {
+                percentage = ((totalNormSeconds * 0.75) / totalRowerSeconds) * 100;
+            } else {
+                percentage = 0;
+                alert("Enter correct distance!");
+            }
+
+            var resultContainer = document.getElementById('resultContainer');
+            resultContainer.innerHTML = ''; // Clear previous content
+
+            var resultBox = document.createElement('div');
+            resultBox.id = 'resultBox';
+            resultBox.innerHTML = "Your percentage is: " + percentage.toFixed(2) + "%";
+
+            resultContainer.appendChild(resultBox);
+        }
+    </script>
+
+</body>
+</html>
